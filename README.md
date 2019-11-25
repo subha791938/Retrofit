@@ -10,6 +10,8 @@
       *  Generation Date: 2012-01-16  Generation Time: 13:01:02:16    *
       *---------------------------------------------------------------*
       *  XXXX     99-99-9999              Prod version                *
+      *  ABCD     11-10-2019              R61 AIRP Change             *
+      *  EFGH     11-01-2019              R61 NGVAM Change            * 
       *---------------------------------------------------------------*
       *                                   Record    Record     Key    *
       *  Function  Name     Organization  Format    Max-Min  Pos-Len  *
@@ -156,7 +158,8 @@
            perform Z-POST-COPYRIGHT
            perform CUSTLFFL-OPEN
            perform CUSTLCSV-OPEN
-
+           #Insert Line1 for AIRP
+           #Insert Line2 for AIRP
            perform until CUSTLFFL-STATUS not = '00'
                perform CUSTLFFL-READ
                if  CUSTLFFL-STATUS = '00'
@@ -168,7 +171,8 @@
                    end-if
                end-if
            end-perform
-
+           #Insert Line1 for NGVAM
+           #Insert Line2 for NGVAM
            move CUSTLFFL-TOTAL to MESSAGE-TEXT
            perform Z-DISPLAY-MESSAGE-TEXT
 
@@ -180,7 +184,7 @@
            else
                move 'ABENDING' to INFO-ID
            end-if
-           move INFO-STATEMENT to MESSAGE-TEXT(1:79)
+           move INFO-STATEMENT to MESSAGE-TEXT(1:77)    ---- NgVAM
            perform Z-DISPLAY-MESSAGE-TEXT
 
            perform CUSTLCSV-CLOSE
@@ -250,7 +254,7 @@
                subtract APPL-RESULT from APPL-RESULT
                move 'O' to CUSTLFFL-OPEN-FLAG
            else
-               add 12 to ZERO giving APPL-RESULT
+               add 16 to ZERO giving APPL-RESULT            ----- AIRP
            end-if
            if  APPL-AOK
                CONTINUE
